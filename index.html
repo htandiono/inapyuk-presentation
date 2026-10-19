@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>InapYuk presentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,520;0,9..144,620;1,9..144,520&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="progress" id="progress"></div>
+    <main id="deck">
+      <section class="slide title" data-who="both">
+        <p class="kicker">Purwadhika final project</p>
+        <h1>InapYuk</h1>
+        <p class="lead">See the price of each night, then book with the owner.</p>
+        <p class="names">Hendrik and Awan</p>
+      </section>
+
+      <section class="slide" data-who="both">
+        <p class="kicker">The idea</p>
+        <h2>The price should be clear before you book.</h2>
+        <p>
+          A lot of booking sites show one number, then change it at the last step. InapYuk
+          puts the price of every night on a calendar. If a holiday weekend costs more, you
+          see that before you pay.
+        </p>
+      </section>
+
+      <section class="slide" data-who="both">
+        <p class="kicker">Who it is for</p>
+        <h2>One site, two jobs.</h2>
+        <div class="pair">
+          <article>
+            <h3>Guest</h3>
+            <p>Search for a stay, book it, upload payment proof, and leave a review after checkout.</p>
+          </article>
+          <article>
+            <h3>Owner</h3>
+            <p>List rooms, set busy dates and peak prices, confirm payment, and read the reports.</p>
+          </article>
+        </div>
+        <p class="note">In the app, the owner is called a tenant.</p>
+      </section>
+
+      <section class="slide" data-who="both">
+        <p class="kicker">How we split the work</p>
+        <h2>Awan opens the door. Hendrik closes the stay.</h2>
+        <div class="pair">
+          <article>
+            <h3>Awan, Feature 1</h3>
+            <p>Homepage, search, accounts, profiles, and the tools an owner uses to list a place.</p>
+          </article>
+          <article>
+            <h3>Hendrik, Feature 2</h3>
+            <p>Booking, payment proof, reviews, notifications, and the sales and occupancy reports.</p>
+          </article>
+        </div>
+        <p class="note">Same look, same database. We will demo in that order.</p>
+      </section>
+
+      <section class="slide divider" data-who="awan">
+        <p class="kicker">Awan</p>
+        <h2>Finding a place, and putting one online.</h2>
+        <p>I will show the homepage, the catalog, accounts, and the owner’s property tools.</p>
+      </section>
+
+      <section class="slide split" data-who="awan">
+        <div>
+          <p class="kicker">Homepage</p>
+          <h2>Search starts on the first screen.</h2>
+          <p>The guest picks a city, check-in, check-out, and the number of guests.</p>
+          <p>Under that, a few recommended stays, each with a starting price.</p>
+        </div>
+        <figure>
+          <img src="images/home.png" alt="InapYuk homepage with search and recommended stays" />
+        </figure>
+      </section>
+
+      <section class="slide split" data-who="awan">
+        <div>
+          <p class="kicker">Catalog</p>
+          <h2>Every place, with its own photo and price.</h2>
+          <p>The demo has eight stays in Bali and Yogyakarta.</p>
+          <p>Search by name, filter by type, and sort by name or price. Paging and filters run on the server.</p>
+        </div>
+        <figure>
+          <img src="images/catalog.png" alt="Property catalog with villas and homestays" />
+        </figure>
+      </section>
+
+      <section class="slide split" data-who="awan">
+        <div>
+          <p class="kicker">Property page</p>
+          <h2>Photos, rooms, and a map.</h2>
+          <p>Open a place and you get its photos, a short description, the room choices, and a price calendar.</p>
+          <p>The pin comes from the address the owner saved.</p>
+        </div>
+        <figure>
+          <img src="images/detail.png" alt="Canggu Surf Villa detail page" />
+        </figure>
+      </section>
+
+      <section class="slide split" data-who="awan">
+        <div>
+          <p class="kicker">Rooms and the map</p>
+          <h2>The guest picks a room. The calendar shows the price.</h2>
+          <p>Garden Studio is Rp 750,000 a night. Poolside Suite is Rp 1,450,000.</p>
+          <p>Hendrik continues from this calendar.</p>
+        </div>
+        <figure>
+          <img src="images/rooms.png" alt="Room choices, price calendar, and map" />
+        </figure>
+      </section>
+
+      <section class="slide" data-who="awan">
+        <p class="kicker">Accounts</p>
+        <h2>Guests and owners sign up separately.</h2>
+        <ul>
+          <li>A new account gets a verification email. The link works once, and it expires.</li>
+          <li>Forgot password uses the same kind of link.</li>
+          <li>Google sign-in is on the login page. You can also link Google later from your profile.</li>
+        </ul>
+      </section>
+
+      <section class="slide" data-who="awan">
+        <p class="kicker">Profile and listing tools</p>
+        <h2>The owner controls the price the guest sees.</h2>
+        <ul>
+          <li>Profile: name, photo, password, and email. A new email must be verified first.</li>
+          <li>Listing: category, photos, address, and a map pin you can drag.</li>
+          <li>Each room has free dates and a peak-season price, as a fixed amount or a percent.</li>
+        </ul>
+      </section>
+
+      <section class="slide divider" data-who="hendrik">
+        <p class="kicker">Hendrik</p>
+        <h2>From a date on the calendar to a finished stay.</h2>
+        <p>Awan’s calendar already knows the price. I take the guest from that date through payment, review, and the owner’s reports.</p>
+      </section>
+
+      <section class="slide" data-who="hendrik">
+        <p class="kicker">Booking</p>
+        <h2>The price is saved night by night.</h2>
+        <p>The guest picks check-in and check-out. Nothing is charged until they send the booking.</p>
+        <p>We store the price of each night at that moment. If the owner changes the peak price later, this booking stays the same.</p>
+      </section>
+
+      <section class="slide" data-who="hendrik">
+        <p class="kicker">Payment</p>
+        <h2>Upload proof, or the booking cancels itself.</h2>
+        <ul>
+          <li>The guest uploads a photo of the transfer. Jpg or png, up to 1 MB.</li>
+          <li>A countdown runs while we wait for that file.</li>
+          <li>If the file never arrives, the booking is cancelled and the room is free again.</li>
+        </ul>
+      </section>
+
+      <section class="slide" data-who="hendrik">
+        <p class="kicker">The owner confirms</p>
+        <h2>Accept, reject, or cancel.</h2>
+        <p>Transactions shows only this owner’s bookings. Cancel always asks for confirmation first.</p>
+        <p>The guest sees a notification in the bell, and gets an email when the payment is accepted. A reminder also goes out the day before check-in.</p>
+      </section>
+
+      <section class="slide" data-who="hendrik">
+        <p class="kicker">After checkout</p>
+        <h2>One review per finished stay.</h2>
+        <p>When the checkout date has passed, the stay is marked complete. Then the guest can write one review, and the owner can reply.</p>
+      </section>
+
+      <section class="slide" data-who="hendrik">
+        <p class="kicker">Reports</p>
+        <h2>Where the money came from, and which rooms are full.</h2>
+        <ul>
+          <li>Sales can be grouped by property, by booking, or by guest, and filtered by date.</li>
+          <li>Occupancy is a calendar of which rooms are taken.</li>
+          <li>Both pages work on a phone as well as on a laptop.</li>
+        </ul>
+      </section>
+
+      <section class="slide" data-who="both">
+        <p class="kicker">What you can check</p>
+        <h2>A few rules we kept the whole way.</h2>
+        <ul>
+          <li>A guest only sees their own bookings. An owner only sees their own properties.</li>
+          <li>Forms are checked in the browser and again on the server.</li>
+          <li>Lists are filtered, sorted, and paged on the server.</li>
+        </ul>
+      </section>
+
+      <section class="slide" data-who="both">
+        <p class="kicker">Live demo</p>
+        <h2>Guest books. Owner confirms.</h2>
+        <p>We sign in as a guest, book a room in Bali, and upload proof. Then we sign in as the Bali owner, accept that proof, and open the sales report.</p>
+        <p class="linkline"><a href="https://inapyuk.space">inapyuk.space</a></p>
+      </section>
+
+      <section class="slide title end" data-who="both">
+        <p class="kicker">Thank you</p>
+        <h1>Questions are welcome.</h1>
+        <p class="lead"><a href="https://inapyuk.space">inapyuk.space</a></p>
+      </section>
+    </main>
+
+    <footer class="chrome">
+      <p id="who"></p>
+      <p id="count"></p>
+      <div class="nav">
+        <button type="button" id="prev" aria-label="Previous slide">Back</button>
+        <button type="button" id="next" aria-label="Next slide">Next</button>
+      </div>
+    </footer>
+    <script src="app.js"></script>
+  </body>
+</html>
