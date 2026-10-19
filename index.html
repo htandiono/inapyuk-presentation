@@ -94,6 +94,19 @@
         </figure>
       </section>
 
+      <section class="slide code-slide" data-who="awan">
+        <p class="kicker">Catalog, in code</p>
+        <h2>Every list asks the database for one page.</h2>
+        <p class="path">apps/api/src/utils/pagination.ts</p>
+        <pre><code>export function toPrismaPageArgs(input: PaginationInput): PrismaPageArgs {
+  const page = Math.max(DEFAULT_PAGE, Math.trunc(input.page ?? DEFAULT_PAGE));
+  const requested = Math.trunc(input.limit ?? DEFAULT_LIMIT);
+  const limit = Math.min(MAX_LIMIT, Math.max(1, requested));
+  return { skip: (page - 1) * limit, take: limit, page, limit };
+}</code></pre>
+        <p class="caption">Default page size is 10, and the cap is 100. Page 2 skips the first 10 rows. The browser never loads the whole table.</p>
+      </section>
+
       <section class="slide split" data-who="awan">
         <div>
           <p class="kicker">Property page</p>
@@ -127,6 +140,18 @@
         </ul>
       </section>
 
+      <section class="slide code-slide" data-who="awan">
+        <p class="kicker">Verification email</p>
+        <h2>The API waits for the mail to go out.</h2>
+        <p class="path">apps/api/src/modules/auth/auth.service.ts</p>
+        <pre><code>const { rawToken, tokenHash, expiresAt } = createTokenData();
+const { user } = await prisma.$transaction((tx) =>
+  createUserAndToken(tx, newUserData(input, 'USER'), { tokenHash, expiresAt }),
+);
+await sendVerificationEmail(user, rawToken, 'Verifikasi Akun InapYuk');</code></pre>
+        <p class="caption">On a hosted server the process can stop as soon as the response is sent. Waiting here means the verification mail is not dropped.</p>
+      </section>
+
       <section class="slide" data-who="awan">
         <p class="kicker">What the owner sets up</p>
         <h2>The listing is what the guest price comes from.</h2>
@@ -135,6 +160,19 @@
           <li>Property: category, photos, address, and a map pin that can be dragged.</li>
           <li>Each room has free dates and a peak-season price, as a fixed amount or a percent.</li>
         </ul>
+      </section>
+
+      <section class="slide code-slide" data-who="awan">
+        <p class="kicker">Peak-season price</p>
+        <h2>A percent, or a fixed amount, never below zero.</h2>
+        <p class="path">apps/api/src/services/pricing.service.ts</p>
+        <pre><code>export function applyAdjustment(basePrice: number, type: PriceAdjustmentType, value: number) {
+  const adjusted = type === 'PERCENTAGE'
+    ? basePrice * (1 + value / 100)
+    : basePrice + value;
+  return Math.max(0, Math.round(adjusted));
+}</code></pre>
+        <p class="caption">Awan's owner screen writes this rule. Hendrik's booking reads the result for each night.</p>
       </section>
 
       <section class="slide divider" data-who="hendrik">
@@ -150,6 +188,21 @@
         <p>We store that night's price on the booking. A later change to the peak price does not rewrite an old booking.</p>
       </section>
 
+      <section class="slide code-slide" data-who="hendrik">
+        <p class="kicker">Booking, in code</p>
+        <h2>Each night is copied onto the order.</h2>
+        <p class="path">apps/api/src/modules/bookings/bookings.create.ts</p>
+        <pre><code>function toNightCreate(night: NightlyRate) {
+  return {
+    date: night.date,
+    basePrice: night.basePrice,
+    finalPrice: night.finalPrice,
+    peakSeasonRateName: night.peakSeasonRateName,
+  };
+}</code></pre>
+        <p class="caption">The order keeps its own copy. Editing the room price later does not change nights that were already booked.</p>
+      </section>
+
       <section class="slide" data-who="hendrik">
         <p class="kicker">Order status</p>
         <h2>Five states, in order.</h2>
@@ -160,6 +213,20 @@
           <li>Completed, after the checkout date. Only then can the guest review.</li>
           <li>Cancelled, by the guest, by the owner, or automatically if nobody pays.</li>
         </ol>
+      </section>
+
+      <section class="slide code-slide" data-who="hendrik">
+        <p class="kicker">Status rules</p>
+        <h2>A booking can only move along these paths.</h2>
+        <p class="path">apps/api/src/modules/bookings/status-machine.ts</p>
+        <pre><code>const TRANSITIONS = {
+  WAITING_PAYMENT: ['WAITING_CONFIRMATION', 'CANCELLED'],
+  WAITING_CONFIRMATION: ['PROCESSED', 'WAITING_PAYMENT'],
+  PROCESSED: ['COMPLETED'],
+  CANCELLED: [],
+  COMPLETED: [],
+};</code></pre>
+        <p class="caption">Any other jump is rejected. A finished stay cannot go back to waiting for payment.</p>
       </section>
 
       <section class="slide" data-who="hendrik">
@@ -173,6 +240,17 @@
         </ul>
       </section>
 
+      <section class="slide code-slide" data-who="hendrik">
+        <p class="kicker">File check</p>
+        <h2>The server rejects the file before it is stored.</h2>
+        <p class="path">apps/api/src/middlewares/upload.middleware.ts</p>
+        <pre><code>export const MAX_FILE_SIZE_BYTES = 1024 * 1024;
+export const PAYMENT_PROOF_EXTENSIONS = ['.jpg', '.jpeg', '.png'];
+
+export const uploadPaymentProof = buildUploader(PAYMENT_PROOF_EXTENSIONS);</code></pre>
+        <p class="caption">1 MB is 1024 times 1024 bytes. Profile photos use the same size. Property photos allow 5 MB.</p>
+      </section>
+
       <section class="slide" data-who="hendrik">
         <p class="kicker">After the stay</p>
         <h2>One review, then the reports.</h2>
@@ -183,6 +261,17 @@
         </ul>
       </section>
 
+      <section class="slide code-slide" data-who="hendrik">
+        <p class="kicker">Reviews</p>
+        <h2>One review, and only after checkout.</h2>
+        <p class="path">apps/api/src/modules/reviews/reviews.create.ts</p>
+        <pre><code>if (booking.review) throw conflict('Pesanan ini sudah pernah diulas');
+if (booking.status !== 'COMPLETED') {
+  throw conflict('Ulasan hanya untuk menginap yang sudah selesai');
+}</code></pre>
+        <p class="caption">The messages say the stay was already reviewed, or it is not finished yet. The same check also refuses a review before the checkout date.</p>
+      </section>
+
       <section class="slide" data-who="both">
         <p class="kicker">Checks we kept</p>
         <h2>What you can look for in the demo.</h2>
@@ -191,6 +280,22 @@
           <li>Forms are validated in the browser and again on the server.</li>
           <li>Lists are filtered, sorted, and paged on the server.</li>
         </ul>
+      </section>
+
+      <section class="slide code-slide" data-who="both">
+        <p class="kicker">Who can call the route</p>
+        <h2>A guest route refuses an owner, and the other way around.</h2>
+        <p class="path">apps/api/src/middlewares/auth.middleware.ts</p>
+        <pre><code>export function requireRole(...roles: UserRole[]): RequestHandler {
+  return (req, _res, next) => {
+    if (!req.user) throw unauthorized();
+    if (!roles.includes(req.user.role)) {
+      throw forbidden('Akses ditolak');
+    }
+    next();
+  };
+}</code></pre>
+        <p class="caption">Booking routes ask for role USER. The owner's transaction routes ask for role TENANT. "Akses ditolak" means access denied.</p>
       </section>
 
       <section class="slide" data-who="both">

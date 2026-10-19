@@ -141,6 +141,35 @@ img {
 a { color: var(--teal); }
 .linkline { font-size: 1.35rem; margin-top: 0.8rem; }
 
+.path, .caption {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.path { margin-bottom: 0.35rem; }
+
+.caption { margin-top: 0.65rem; max-width: 46rem; }
+
+.slide.code-slide h2 { max-width: 28ch; }
+
+pre {
+  margin: 0.15rem 0 0;
+  padding: 0.75rem 0.95rem;
+  max-width: 52rem;
+  max-height: calc(100dvh - 16rem);
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  border-radius: 0.75rem;
+  background: #241c16;
+  color: #f6efe4;
+  font-family: "Cascadia Code", Consolas, ui-monospace, monospace;
+  font-size: clamp(0.72rem, 1.2vw, 0.88rem);
+  line-height: 1.45;
+}
+
+code { font-family: inherit; }
+
 .chrome {
   position: fixed;
   left: 0;
@@ -208,5 +237,7 @@ button:hover { border-color: var(--teal); color: var(--teal); }
   h2, .slide.split h2 { font-size: 1.7rem; max-width: none; }
   .pair { grid-template-columns: 1fr; }
   img { max-height: 42vh; margin-top: 0.8rem; }
+  pre { max-height: 46vh; font-size: 0.72rem; }
+  .slide.code-slide h2 { max-width: none; }
   .title { padding-top: 12vh; }
 }
